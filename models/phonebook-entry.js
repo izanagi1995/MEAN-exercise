@@ -22,5 +22,5 @@ const PhonebookEntrySchema = new Schema({
   }
 });
 
-module.exports = mongoose.Model(PhonebookEntrySchema, "phonebook");
+module.exports = mongoose.model("phonebook", PhonebookEntrySchema);
 
