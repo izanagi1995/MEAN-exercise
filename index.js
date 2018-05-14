@@ -19,7 +19,11 @@ app.use(cors());
 app.use("/api", contactBookRoutes);
 
 mongoose.connect(config.mongo.url).then(() => {
-  app.listen(2000);
+  const server = app.listen(config.express.port, () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(`App listening : ${host}:${port}`);
+  });
 }).catch((err) => {
   console.error(`Cannot connect to MongoDB : ${err}`);
 });
