@@ -1,0 +1,13 @@
+<div *ngIf="phonebookEntries && phonebookEntries.length != 0; then ok else empty"></div>
+<ng-template #ok>
+  <app-phonebook-entry *ngFor="let entry of applyFilter()" [entry]="entry" (edit)="editEntry($event)" (delete)="deleteEntry($event)"></app-phonebook-entry>
+</ng-template>
+<ng-template #empty>
+  <div class="row">
+    <div class="col"> 
+      <div class="text-weight-bold">
+          There is currently no entries in your phonebook
+      </div>
+    </div>
+  </div>
+</ng-template>
