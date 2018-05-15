@@ -1,0 +1,10 @@
+<div class="row justify-content-between border-bottom mb-3">
+  <div class="col">
+    <div>{{entry.firstName+" "+entry.lastName}}</div>
+    <div>{{entry.phoneNumber}}</div>
+  </div>
+  <div class="col text-right">
+    <button type="button" class="btn btn-warning" (click)="triggerEdit()">Edit this entry</button>
+    <button type="button" class="btn btn-danger" (click)="triggerDelete()">Delete this entry</button> 
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<h1>Create or edit a phonebook entry</h1>
+<form novalidate *ngIf="model; else loading" (submit)="submitForm()" #f="ngForm">
+  <div class="form-group row">
+    <label for="lastName" class="col-3 col-form-label">Last name</label> 
+    <div class="col-9">
+      <input [ngClass]="{'is-invalid': lastName?.invalid && lastName?.touched}" #lastName="ngModel" [(ngModel)]="model.lastName" id="lastName" name="lastName" placeholder="Last name" type="text" required="required" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="firstName" class="col-3 col-form-label">First name</label> 
+    <div class="col-9">
+      <input [ngClass]="{'is-invalid': firstName?.invalid && firstName?.touched}" #firstName="ngModel" [(ngModel)]="model.firstName" id="firstName" name="firstName" placeholder="First name" type="text" required="required" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="phoneNumber" class="col-3 col-form-label">Phone number</label> 
+    <div class="col-9">
+      <input [ngClass]="{'is-invalid': phoneNumber?.invalid && phoneNumber?.touched}" #phoneNumber="ngModel" pattern="\+\d+ \d+ \d{6,}" [(ngModel)]="model.phoneNumber" id="phoneNumber" name="phoneNumber" placeholder="Phone number" type="text" required="required" class="form-control">
+      <div class="invalid-feedback">
+        The phone number is composed by a "+" followed by a nonempty group of digits, a space, a nonempty group of digits, a space, a group of digits with at least 6 digits.
+      </div>
+    </div>
+  </div> 
+  <div class="form-group row">
+    <div class="offset-3 col-9">
+      <button [disabled]="f.form.invalid" name="submit" type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
+<div *ngIf="submitError">
+  {{submitError | json}}
+</div>
+<ng-template #loading>
+  <h2>Please wait while loading...</h2>
+</ng-template>
