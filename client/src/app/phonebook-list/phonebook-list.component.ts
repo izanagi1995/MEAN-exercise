@@ -24,7 +24,9 @@ export class PhonebookListComponent implements OnInit {
       if (this.filter === '') {
         return true;
       }
-      return entry.lastName.includes(this.filter) || entry.lastName.includes(this.filter) || entry.phoneNumber.includes(this.filter);
+      return entry.lastName.toLowerCase().includes(this.filter.toLowerCase())
+        || entry.firstName.toLowerCase().includes(this.filter.toLowerCase())
+        || entry.phoneNumber.toLowerCase().includes(this.filter.toLowerCase());
     });
   }
 
