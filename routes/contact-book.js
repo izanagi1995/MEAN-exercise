@@ -28,30 +28,42 @@ router.get("/", (req, res) => {
       return entry;
     });
 
-    console.log(dataWithBetterIds);
-
     res.json(dataWithBetterIds);
   }).catch(err => res.status(500).json(err));
 });
+
 
 router.post("/", (req, res) => {
   // It is safe to do that because I enforced my Mongoose Model so the validation will check that nothing bad happens here.
   // Unknown fields are deleted thanks to strict mode (see http://mongoosejs.com/docs/guide.html#strict)
   const entry = new PhonebookEntry(req.body);
-  entry.save().then((entryDB) => res.status(200).json(entryDB)).catch(err => res.status(500).json(err));
+  console.log("valid?", entry.validateSync());
+  entry.save()
+    .then((entryDB) => res.status(200).json(entryDB))
+    .catch(err => res.status(500).json(err));
+});
+
+router.get("/:id", (req, res) => {
+  // Unzip ids
+  const id = base64ToHex(req.params.id);
+  PhonebookEntry.findById(id, req.body)
+    .then(result => res.json(result))
+    .catch(err => res.status(500).json(err));
 });
 
 router.put("/:id", (req, res) => {
   // Unzip ids
   const id = base64ToHex(req.params.id);
-  PhonebookEntry.findByIdAndUpdate(id, req.body)
+  const entry = new PhonebookEntry(req.body);
+  console.log("valid?", entry.validateSync());
+  PhonebookEntry.findOneAndUpdate({_id : id}, req.body, {runValidators: true})
     .then(result => res.json(result))
     .catch(err => res.status(500).json(err));
 });
 
 router.delete("/:id", (req, res) => {
   const id = base64ToHex(req.params.id);
-  PhonebookEntry.findByIdAndUpdate(id, req.body)
+  PhonebookEntry.findByIdAndDelete(id)
     .then(() => res.status(200).end())
     .catch(err => res.status(500).json(err));
 });
